@@ -1,8 +1,9 @@
-import { UserPrompt } from '@/modules/gpt/api/types';
+import type { UserPrompt } from '@/modules/gpt/api/types';
 
 export async function getMessage(payload: UserPrompt) {
   try {
-    const API_KEY = process.env.OPENAI_API_KEY;
+    const API_KEY = import.meta.env.GPT_API_KEY;
+    const API_URL = import.meta.env.GPT_API_URL;
     const options = {
       method: 'POST',
       headers: {
@@ -15,9 +16,8 @@ export async function getMessage(payload: UserPrompt) {
       })
     }
 
-    const response = await fetch('https://api.openai.com/v1/chat/completions', options)
-    const data = await response.json()
-    console.log(data)
+    const response = await fetch(API_URL, options)
+    return await response.json()
   } catch (error) {
     console.error(error)
   }
